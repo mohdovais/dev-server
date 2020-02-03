@@ -2,6 +2,7 @@ const { createServer } = require("https");
 const { readFileSync } = require("fs");
 const path = require("path");
 
+const { createWebSocketServer, connect } = require("./ws");
 const { handler } = require("./app.js");
 
 const options = {
@@ -12,6 +13,11 @@ const options = {
 const { PORT = 3000 } = process.env;
 
 // Mount Polka to HTTPS server
-createServer(options, handler).listen(PORT, _ => {
+const server = createServer(options, handler);
+const wss = createWebSocketServer({ server });
+
+connect(wss);
+
+server.listen(PORT, _ => {
   console.log(`> Running on https://localhost:${PORT}`);
 });
