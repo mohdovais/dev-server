@@ -16,7 +16,7 @@ function devServer(options = {}) {
     writeBundle: function(bundle) {
       socketServer.clients.forEach(function each(client) {
         if (client.readyState === 1) {
-          client.send(Object.keys(bundle).toString());
+          //client.send(Object.keys(bundle).toString());
         }
       });
     }

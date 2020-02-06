@@ -5,9 +5,9 @@ const path = require("path");
 
 /* node_modules */
 const polka = require("polka");
-const WebSocket = require("ws");
 const staticMiddleware = require("serve-static");
 const compression = require("compression");
+const livereload = require("livereload");
 
 /* local */
 const proxyMiddleware = require("./proxy");
@@ -36,10 +36,11 @@ const defaultConfig = {
 
 function start(config) {
   const {
+    host,
+    port,
     allowedHosts,
     proxy,
     contentBase,
-    port,
     compress,
     https,
     headers,
@@ -47,6 +48,7 @@ function start(config) {
     historyApiFallback,
     liveReload
   } = Object.assign(defaultConfig, config);
+  let livereloadServer;
 
   const headersMiddleware = function(req, res, next) {
     Object.keys(headers).forEach(key => {
@@ -77,21 +79,23 @@ function start(config) {
   );
   const webServer = createServer(https ? options : {}, handler);
 
-  if (liveReload) {
-    const socketServer = new WebSocket.Server({ server: webServer });
-    socketServer.on("connection", function connection(ws) {
-      console.log("> websocket connected to client\n");
-    });
+  if (liveReload && contentBase) {
+    livereloadServer = livereload.createServer(
+      Object.assign({}, liveReload),
+      function() {
+        console.log(
+          `> livereload listening on ${livereloadServer.config.port}\n`
+        );
+      }
+    );
+    livereloadServer.watch(contentBase);
   }
 
-  webServer.listen(port, _ => {
-    console.log(`> Running server on https://localhost:${port}\n`);
+  webServer.listen(port, host, _ => {
+    console.log(`> Running server on https://${host}:${port}\n`);
   });
 
-  return {
-    socketServer,
-    webServer
-  };
+  return webServer;
 }
 
 exports.createServer = start;

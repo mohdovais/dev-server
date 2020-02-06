@@ -13,10 +13,10 @@
   "license": "ISC",
   "devDependencies": {
     "compression": "^1.7.4",
+    "livereload": "^0.9.1",
     "polka": "^0.5.2",
     "request": "^2.88.0",
     "rollup": "^1.31.0",
-    "serve-static": "^1.14.1",
-    "ws": "^7.2.1"
+    "serve-static": "^1.14.1"
   }
 }
