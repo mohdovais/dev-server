@@ -1,25 +1,17 @@
 const { createServer } = require("./server/index");
 
 function devServer(options = {}) {
-  const { webServer, socketServer } = createServer(options);
+  const server = createServer(options);
 
   [("SIGINT", "SIGTERM")].forEach(signal => {
     process.on(signal, () => {
-      socketServer.close();
-      webServer.close();
+      server.close();
       process.exit();
     });
   });
 
   return {
-    name: "dev-server",
-    writeBundle: function(bundle) {
-      socketServer.clients.forEach(function each(client) {
-        if (client.readyState === 1) {
-          //client.send(Object.keys(bundle).toString());
-        }
-      });
-    }
+    name: "dev-server"
   };
 }
 
