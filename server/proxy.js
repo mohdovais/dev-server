@@ -1,6 +1,6 @@
 const request = require("request");
 
-const { PROXY_URL = "https://github.com" } = process.env;
+const { PROXY_URL = "http://localhost:5000" } = process.env;
 
 function proxy(req, res, next) {
   const method = req.method.toLowerCase().replace(/delete/, "del");

@@ -4,16 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
+    "start": "node index.js",
+    "watch": "rollup -c -w",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "chokidar": "^3.3.1",
+    "compression": "^1.7.4",
     "polka": "^0.5.2",
     "request": "^2.88.0",
+    "rollup": "^1.31.0",
+    "serve-static": "^1.14.1",
     "ws": "^7.2.1"
   }
 }
