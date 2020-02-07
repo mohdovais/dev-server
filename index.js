@@ -1,6 +1,9 @@
 const { createServer } = require("./server/index");
 
-const { webServer, socketServer } = createServer({
+const server = createServer({
   port: 8000,
-  contentBase: "./dist"
+  contentBase: "./dist",
+  serveStatic: false,
+  https: false,
+  proxy: 'https://www.google.com'
 });

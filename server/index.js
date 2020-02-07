@@ -1,5 +1,6 @@
 /* node internals */
-const { createServer } = require("https");
+const { createServer: createSecureServer } = require("https");
+const { createServer } = require("http");
 const { readFileSync } = require("fs");
 const path = require("path");
 
@@ -27,9 +28,6 @@ const defaultConfig = {
   headers: {
     server: "DevServer/1.0"
   },
-  clientLogLevel: "silient",
-  disableHostCheck: true,
-  historyApiFallback: false,
   liveReload: true
 };
 
@@ -63,7 +61,10 @@ function start(config) {
     compress
   });
 
-  const webServer = createServer(Object.assign(httpsOptions, https), handler);
+  const webServer =
+    https === false
+      ? createServer(handler)
+      : createSecureServer(Object.assign(httpsOptions, https), handler);
 
   livereloadServer.watch(contentBase);
 
@@ -72,7 +73,11 @@ function start(config) {
   });
 
   webServer.listen(port, host, () => {
-    console.log(`> Running server on https://${host}:${port}\n`);
+    console.log(
+      `> Running server on http${
+        https === false ? "" : "s"
+      }://${host}:${port}\n`
+    );
   });
 
   return webServer;
