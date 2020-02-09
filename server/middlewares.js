@@ -4,7 +4,7 @@ const request = require("request");
 const fake = (req, res, next) => next();
 
 // 2
-const proxyMiddleware = proxy => (req, res, next) => {
+const proxyMiddleware = proxy => (req, res) => {
   const method = req.method.toLowerCase().replace(/delete/, "del");
   var r;
   switch (method) {

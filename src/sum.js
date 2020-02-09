@@ -1,6 +1,9 @@
 export function sum() {
-  return Array.prototype.slice.call(arguments).reduce(function(sum, item) {
-    return sum + item;
-  }, 0);
+  return Array.prototype.reduce.call(
+    arguments,
+    function(sum, item) {
+      return sum + item;
+    },
+    0
+  );
 }
-

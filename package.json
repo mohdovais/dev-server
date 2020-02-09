@@ -5,18 +5,23 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "build": "rollup -c",
     "watch": "rollup -c -w",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prebuild:docker": "npm run build",
+    "build:docker": "docker build -t mohdovais/dev-server ."
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "compression": "^1.7.4",
     "livereload": "^0.9.1",
     "polka": "^0.5.2",
     "request": "^2.88.0",
-    "rollup": "^1.31.0",
     "serve-static": "^1.14.1"
+  },
+  "devDependencies": {
+    "rollup": "^1.31.0"
   }
 }
